@@ -10,7 +10,8 @@ function message = decode(n, k, v, gD, syndromes)
     aux(1, 1) = 1;
 
     % Enquanto a síndrome não for nula, tenta decodificar
-    while(sum(syndrome) > 0)
+    counter = 0;
+    while(sum(syndrome) > 0 && counter <= n)
        %syndrome
         % Se for síndrome referente à erro na primeira posição, troca o bit
         if ismember(syndrome, syndromes, 'rows')
@@ -22,6 +23,7 @@ function message = decode(n, k, v, gD, syndromes)
            r = mod(r, 2);
            syndrome = r(1, end-(n-k)+1:end);
            syndrome = fliplr(syndrome);
+           counter = 0;
         % Senão, gira a síndrome e a palvra código
         else
             v = circshift(v, 1);
@@ -30,6 +32,7 @@ function message = decode(n, k, v, gD, syndromes)
             b = syndrome(1, end) * gD(1, 1:end-1);
             syndrome = a + b;
             syndrome = mod(syndrome, 2);
+            counter = counter + 1;
         end
     end
 
