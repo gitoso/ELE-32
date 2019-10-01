@@ -1,11 +1,10 @@
-function new_v = channel(v, prob)
-    errors = randi([0 100], 1, length(v));
-    for i = 1:length(errors)
-        if(errors(1, i) > 100*prob)
-            errors(1, i) = 0;
-        else
-            errors(1, i) = 1;
+function message = channel(message, p)
+    [m, n] = size(message);
+    for i = 1:n
+        x = rand;
+        if x <= p
+            message(i) = ~message(i);
         end
     end
-    errors;
-    new_v = mod(v + errors, 2);
+    return;
+end

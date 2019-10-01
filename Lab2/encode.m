@@ -1,3 +1,4 @@
 function v = encode(u, gD)
     % Codifica uma mensagem
-    v = mod(conv(gD, u), 2);
+    v = mod(conv(fliplr(gD), fliplr(u)), 2);
+    v = fliplr(v);

@@ -17,9 +17,9 @@ function [gD, min_distance] = findGeneratorPolynomial(n, k)
         % Calcula a distância para cada polinômio
         for i = 1:number_polys
             if min_distances(i) == 0
-                min_distances(i) = sum(mod(conv(generators_poly(i,:), binary_number), 2));
+                min_distances(i) = sum(mod(conv(fliplr(generators_poly(i,:)), fliplr(binary_number)), 2));
             else
-                min_distances(i) = min(min_distances(i), sum(mod(conv(generators_poly(i,:), binary_number), 2)));
+                min_distances(i) = min(min_distances(i), sum(mod(conv(fliplr(generators_poly(i,:)), fliplr(binary_number)), 2)));
             end
         end
     end
@@ -29,6 +29,7 @@ function [gD, min_distance] = findGeneratorPolynomial(n, k)
 
     % Define como o polinômio gerador
     gD = generators_poly(index_maximum, :);
+    gD = fliplr(gD);
 
     % Printa na tela
     %sprintf('Para n = %d e k = %d, o menor polinômio gerador é:', n, k)

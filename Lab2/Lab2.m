@@ -16,8 +16,8 @@ clc;
 %N = [9 10 11 12 15];
 %K = [5 6 6 7 9];
 
-n = 15;
-k = 9;
+n = 7;
+k = 4;
 
 % Probabilidades
 probabilities = [0.5; 0.2; 0.1];
@@ -25,10 +25,10 @@ probabilities = [probabilities; probabilities/10; probabilities/100; probabiliti
 N = length(probabilities);
 
 % Encontra o polinômio gerador
-[gD, min_distance] = findGeneratorPolynomial(n, k);
+[gD, min_distance] = findGeneratorPolynomial(n, k)
 
 % Encontra as síndromes relacionadas à erros na primeira posição
-sindromes = findSyndromes(n, k, gD, min_distance);
+sindromes = findSyndromes(n, k, gD, min_distance)
 
 pbCustom = [];
 
@@ -45,8 +45,9 @@ for i = 1:N
         decoded_v = decode(n, k, new_v, gD, sindromes);
         
         % Divide por gD para obter decoded_u
-        [q, r] = deconv(decoded_v, gD);
+        [q, r] = deconv(fliplr(decoded_v), fliplr(gD));
         decoded_u = mod(q, 2);
+        decoded_u = fliplr(decoded_u);
 
         % Checa se a mensagem recebida esta correta
         errors = mod(u + decoded_u, 2);
@@ -63,11 +64,11 @@ plot(probabilities, pbCustom);
 hold on;
 plot(probabilities, probabilities);
 legend('Custom', 'Sem Código');
-xticks(flipud(probabilities));
-yticks(flipud(probabilities));
+%xticks(flipud(probabilities));
+%yticks(flipud(probabilities));
 set(gca, 'XScale', 'log');
 set(gca, 'YScale', 'log');
 set(gca, 'xdir', 'reverse');
-xlim([0.0005 0.5]);
+%xlim([0.005 0.5]);
 grid on;
 
